@@ -1,0 +1,438 @@
+fileFormatVersion: 2
+guid: dd747ebb07009db40b783da4eea09e4d
+ModelImporter:
+  serializedVersion: 22200
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: Cro_EnhanceCrossbow
+  - first:
+      1: 100002
+    second: rig:GlobalSRT
+  - first:
+      1: 100004
+    second: rig:Head
+  - first:
+      1: 100006
+    second: rig:LBicep
+  - first:
+      1: 100008
+    second: rig:left_weapon
+  - first:
+      1: 100010
+    second: rig:LFootBone1
+  - first:
+      1: 100012
+    second: rig:LFootBone2
+  - first:
+      1: 100014
+    second: rig:LForearm
+  - first:
+      1: 100016
+    second: rig:LHand
+  - first:
+      1: 100018
+    second: rig:LShin
+  - first:
+      1: 100020
+    second: rig:LShoulder
+  - first:
+      1: 100022
+    second: rig:LThigh
+  - first:
+      1: 100024
+    second: rig:Lumbar1
+  - first:
+      1: 100026
+    second: rig:Lumbar2
+  - first:
+      1: 100028
+    second: rig:Neck
+  - first:
+      1: 100030
+    second: rig:null
+  - first:
+      1: 100032
+    second: rig:RBicep
+  - first:
+      1: 100034
+    second: rig:RFootBone1
+  - first:
+      1: 100036
+    second: rig:RFootBone2
+  - first:
+      1: 100038
+    second: rig:RForearm
+  - first:
+      1: 100040
+    second: rig:RHand
+  - first:
+      1: 100042
+    second: rig:rig
+  - first:
+      1: 100044
+    second: rig:right_weapon
+  - first:
+      1: 100046
+    second: rig:RShin
+  - first:
+      1: 100048
+    second: rig:RShoulder
+  - first:
+      1: 100050
+    second: rig:RThigh
+  - first:
+      1: 100052
+    second: rig:UpperBody
+  - first:
+      1: 100054
+    second: shield2
+  - first:
+      1: 100056
+    second: soldier
+  - first:
+      1: 100058
+    second: //RootNode
+  - first:
+      1: 100060
+    second: weapon:left_weapon
+  - first:
+      1: 100062
+    second: weapon:right_weapon
+  - first:
+      1: 100064
+    second: weapon:weapon
+  - first:
+      4: 400000
+    second: Cro_EnhanceCrossbow
+  - first:
+      4: 400002
+    second: rig:GlobalSRT
+  - first:
+      4: 400004
+    second: rig:Head
+  - first:
+      4: 400006
+    second: rig:LBicep
+  - first:
+      4: 400008
+    second: rig:left_weapon
+  - first:
+      4: 400010
+    second: rig:LFootBone1
+  - first:
+      4: 400012
+    second: rig:LFootBone2
+  - first:
+      4: 400014
+    second: rig:LForearm
+  - first:
+      4: 400016
+    second: rig:LHand
+  - first:
+      4: 400018
+    second: rig:LShin
+  - first:
+      4: 400020
+    second: rig:LShoulder
+  - first:
+      4: 400022
+    second: rig:LThigh
+  - first:
+      4: 400024
+    second: rig:Lumbar1
+  - first:
+      4: 400026
+    second: rig:Lumbar2
+  - first:
+      4: 400028
+    second: rig:Neck
+  - first:
+      4: 400030
+    second: rig:null
+  - first:
+      4: 400032
+    second: rig:RBicep
+  - first:
+      4: 400034
+    second: rig:RFootBone1
+  - first:
+      4: 400036
+    second: rig:RFootBone2
+  - first:
+      4: 400038
+    second: rig:RForearm
+  - first:
+      4: 400040
+    second: rig:RHand
+  - first:
+      4: 400042
+    second: rig:rig
+  - first:
+      4: 400044
+    second: rig:right_weapon
+  - first:
+      4: 400046
+    second: rig:RShin
+  - first:
+      4: 400048
+    second: rig:RShoulder
+  - first:
+      4: 400050
+    second: rig:RThigh
+  - first:
+      4: 400052
+    second: rig:UpperBody
+  - first:
+      4: 400054
+    second: shield2
+  - first:
+      4: 400056
+    second: soldier
+  - first:
+      4: 400058
+    second: //RootNode
+  - first:
+      4: 400060
+    second: weapon:left_weapon
+  - first:
+      4: 400062
+    second: weapon:right_weapon
+  - first:
+      4: 400064
+    second: weapon:weapon
+  - first:
+      43: 4300000
+    second: soldier
+  - first:
+      43: 4300002
+    second: Cro_EnhanceCrossbow
+  - first:
+      43: 4300004
+    second: shield2
+  - first:
+      43: 4300006
+    second: weapon:left_weapon
+  - first:
+      43: 4300008
+    second: weapon:right_weapon
+  - first:
+      74: 7400000
+    second: SoldierStandBy
+  - first:
+      95: 9500000
+    second: //RootNode
+  - first:
+      137: 13700000
+    second: Cro_EnhanceCrossbow
+  - first:
+      137: 13700002
+    second: shield2
+  - first:
+      137: 13700004
+    second: soldier
+  - first:
+      137: 13700006
+    second: weapon:left_weapon
+  - first:
+      137: 13700008
+    second: weapon:right_weapon
+  externalObjects: {}
+  materials:
+    materialImportMode: 0
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: SoldierStandBy
+      takeName: Take 001
+      internalID: 0
+      firstFrame: 6
+      lastFrame: 215
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 1
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Cro_EnhanceCrossbow
+        weight: 1
+      - path: rig:rig
+        weight: 1
+      - path: rig:rig/rig:GlobalSRT
+        weight: 1
+      - path: rig:rig/rig:GlobalSRT/rig:UpperBody
+        weight: 1
+      - path: rig:rig/rig:GlobalSRT/rig:UpperBody/rig:LThigh
+        weight: 1
+      - path: rig:rig/rig:GlobalSRT/rig:UpperBody/rig:LThigh/rig:LShin
+        weight: 1
+      - path: rig:rig/rig:GlobalSRT/rig:UpperBody/rig:LThigh/rig:LShin/rig:LFootBone1
+        weight: 1
+      - path: rig:rig/rig:GlobalSRT/rig:UpperBody/rig:LThigh/rig:LShin/rig:LFootBone1/rig:LFootBone2
+        weight: 1
+      - path: rig:rig/rig:GlobalSRT/rig:UpperBody/rig:Lumbar1
+        weight: 1
+      - path: rig:rig/rig:GlobalSRT/rig:UpperBody/rig:Lumbar1/rig:Lumbar2
+        weight: 1
+      - path: rig:rig/rig:GlobalSRT/rig:UpperBody/rig:Lumbar1/rig:Lumbar2/rig:LShoulder
+        weight: 1
+      - path: rig:rig/rig:GlobalSRT/rig:UpperBody/rig:Lumbar1/rig:Lumbar2/rig:LShoulder/rig:LBicep
+        weight: 1
+      - path: rig:rig/rig:GlobalSRT/rig:UpperBody/rig:Lumbar1/rig:Lumbar2/rig:LShoulder/rig:LBicep/rig:LForearm
+        weight: 1
+      - path: rig:rig/rig:GlobalSRT/rig:UpperBody/rig:Lumbar1/rig:Lumbar2/rig:LShoulder/rig:LBicep/rig:LForearm/rig:LHand
+        weight: 1
+      - path: rig:rig/rig:GlobalSRT/rig:UpperBody/rig:Lumbar1/rig:Lumbar2/rig:LShoulder/rig:LBicep/rig:LForearm/rig:LHand/rig:left_weapon
+        weight: 1
+      - path: rig:rig/rig:GlobalSRT/rig:UpperBody/rig:Lumbar1/rig:Lumbar2/rig:LShoulder/rig:LBicep/rig:LForearm/rig:LHand/rig:left_weapon/rig:null
+        weight: 1
+      - path: rig:rig/rig:GlobalSRT/rig:UpperBody/rig:Lumbar1/rig:Lumbar2/rig:Neck
+        weight: 1
+      - path: rig:rig/rig:GlobalSRT/rig:UpperBody/rig:Lumbar1/rig:Lumbar2/rig:Neck/rig:Head
+        weight: 1
+      - path: rig:rig/rig:GlobalSRT/rig:UpperBody/rig:Lumbar1/rig:Lumbar2/rig:RShoulder
+        weight: 1
+      - path: rig:rig/rig:GlobalSRT/rig:UpperBody/rig:Lumbar1/rig:Lumbar2/rig:RShoulder/rig:RBicep
+        weight: 1
+      - path: rig:rig/rig:GlobalSRT/rig:UpperBody/rig:Lumbar1/rig:Lumbar2/rig:RShoulder/rig:RBicep/rig:RForearm
+        weight: 1
+      - path: rig:rig/rig:GlobalSRT/rig:UpperBody/rig:Lumbar1/rig:Lumbar2/rig:RShoulder/rig:RBicep/rig:RForearm/rig:RHand
+        weight: 1
+      - path: rig:rig/rig:GlobalSRT/rig:UpperBody/rig:Lumbar1/rig:Lumbar2/rig:RShoulder/rig:RBicep/rig:RForearm/rig:RHand/rig:right_weapon
+        weight: 1
+      - path: rig:rig/rig:GlobalSRT/rig:UpperBody/rig:RThigh
+        weight: 1
+      - path: rig:rig/rig:GlobalSRT/rig:UpperBody/rig:RThigh/rig:RShin
+        weight: 1
+      - path: rig:rig/rig:GlobalSRT/rig:UpperBody/rig:RThigh/rig:RShin/rig:RFootBone1
+        weight: 1
+      - path: rig:rig/rig:GlobalSRT/rig:UpperBody/rig:RThigh/rig:RShin/rig:RFootBone1/rig:RFootBone2
+        weight: 1
+      - path: shield2
+        weight: 1
+      - path: soldier
+        weight: 1
+      - path: weapon:weapon
+        weight: 1
+      - path: weapon:weapon/weapon:left_weapon
+        weight: 1
+      - path: weapon:weapon/weapon:right_weapon
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1.3
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 0
+    importVisibility: 0
+    importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    nodeNameCollisionStrategy: 0
+    fileIdsGeneration: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 0
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 0
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 4
+    normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1.3
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 0
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: ea82a84787ecbae47a724714cffe1d69, type: 3}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 3
+  humanoidOversampling: 1
+  avatarSetup: 2
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
+  importBlendShapeDeformPercent: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
