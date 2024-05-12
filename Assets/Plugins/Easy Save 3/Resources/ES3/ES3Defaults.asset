@@ -36,7 +36,6 @@ MonoBehaviour:
     - MeshBakerCore
     - MeshBakerEditor
     - MeshBakerExamples
-    - PPv2URPConverters
     showAdvancedSettings: 0
   addMgrToSceneAutomatically: 0
   autoUpdateReferences: 1
