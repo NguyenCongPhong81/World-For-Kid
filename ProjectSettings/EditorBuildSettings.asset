@@ -6,15 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scene/MainGame.unity
-    guid: 275a29409308e634aa2aae331e6db8ba
-  - enabled: 1
     path: Assets/WorldForKid/Scenes/ChosseCharacter.unity
     guid: 35c93e6c8b2185641a811da50e827ccd
+  - enabled: 1
+    path: Assets/WorldForKid/Scenes/MainGamePlay.unity
+    guid: 1c30bbb9fe21b234b8bcfd7481486f30
   - enabled: 1
     path: Assets/Scene/Profile.unity
     guid: cd435ba0026e6e047b4df7e958bcc0b8
   - enabled: 1
-    path: Assets/WorldForKid/Scenes/MainGamePlay.unity
-    guid: 1c30bbb9fe21b234b8bcfd7481486f30
+    path: Assets/Scene/MainGame.unity
+    guid: 275a29409308e634aa2aae331e6db8ba
   m_configObjects: {}
