@@ -43,4 +43,46 @@ public class PlayerObject : MonoBehaviour
 
         
     }
+
+    public void InitFake(int index)
+    {
+        skinnedMeshRenderer.sharedMesh = listSkinMesh[index];
+        skinnedMeshRenderer.SetMaterials(new List<Material> { listSkinMaterial[index] });
+        MyCharacterData = GameConfig.Instance.CharacterDatas[index];
+        heath.value = (MyCharacterData.Health + .0F) / MyCharacterData.Health;
+        energy.value = (MyCharacterData.Energy + .0F) / MyCharacterData.Energy;
+        playerName.text = GameConfig.Instance.PlayerData.DisplayName;
+        textHeath.text =
+            string.Format("{0}/{1}", MyCharacterData.Health, MyCharacterData.Health);
+        textEnergy.text =
+            string.Format("{0}/{1}", MyCharacterData.Energy, MyCharacterData.Energy);
+    }
+
+    private void OnMouseDown()
+    {
+        LastSelected = this;
+        arrow.SetActive(true);
+    }
+
+    public void UseAttackNormal(string targetUserName, int number = 1)
+    {
+        var targetPlayerData = InGameManager.Instance.DictPlayerInGameData[targetUserName];
+        var targetPlayerObject =
+            InGameManager.Instance.GetPlayerObject(targetPlayerData.IsRedTem, targetPlayerData.IndexPosition);
+        var trans = targetPlayerObject.transform;
+
+        playerAnimation.AttackNormal(trans,
+            () =>
+            {
+                particles[_playerInGameData.CharacterType].SetActive(false);
+                var targetCharacterData =
+                    targetPlayerObject.MyCharacterData;
+
+                //var a = MyCharacterData.Power;
+                //float b = targetCharacterData.Defense;
+                //var damage = Mathf.RoundToInt((a + b) * (a + b) / (b * b));
+                //damage = Mathf.Max(damage, 1);
+                //targetPlayerObject.ReceiveNormalAttack(damage);
+            }, number);
+    }
 }
