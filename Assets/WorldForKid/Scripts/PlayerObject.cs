@@ -62,6 +62,7 @@ public class PlayerObject : MonoBehaviour
     {
         LastSelected = this;
         arrow.SetActive(true);
+        playerAnimation.Skill3(LastSelected.transform, null, 1);
     }
 
     public void UseAttackNormal(string targetUserName, int number = 1)
