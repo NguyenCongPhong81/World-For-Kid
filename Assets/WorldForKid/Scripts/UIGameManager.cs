@@ -1,9 +1,14 @@
-using Script;
+﻿using Script;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Sockets;
+using System.Net;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
+using Unity.Netcode.Transports.UTP;
+using Unity.Netcode;
 
 public class UIGameManager : MonoBehaviour
 {
@@ -45,10 +50,140 @@ public class UIGameManager : MonoBehaviour
 
     void Start()
     {
-        
+        btnShowJoinRoom.onClick.AddListener(ShowJoinRoom);
+
+        btnShowCreateRoom.onClick.AddListener(ShowCreateRoom);
+
+        IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
+
+        foreach (var ip in host.AddressList)
+        {
+            if (ip.AddressFamily == AddressFamily.InterNetwork)
+            {
+                ipCreateRoom.text = ip.ToString();
+            }
+        }
+
+        btnJoinRoom.onClick.AddListener(JoinRoom);
+        btnCreateRoom.onClick.AddListener(CreateRoom);
+
+        tgGreenCreate.onValueChanged.AddListener(OnTgGreenCreateChange);
+        tgRedCreate.onValueChanged.AddListener(OnTgRedCreateChange);
+
+        tgGreenJoin.onValueChanged.AddListener(OnTgGreenJoinChange);
+        tgRedJoin.onValueChanged.AddListener(OnTgRedJoinChange);
+
     }
-    void Update()
+
+    private void CreateRoom()
     {
-        
+        var utp = (UnityTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport;
+        utp.SetConnectionData(ipCreateRoom.text, ushort.Parse(portCreateRoom.text));
+        _isRedTeam = tgRedCreate.isOn;
+        LoadingManager.Instance.Show(10,
+            () =>
+            {
+                Notice.Instance.Show("Tạo phòng thất bại", "Vui lòng chọn port khác", "", "Đóng", null,
+                    ShowCreateRoom,
+                    true);
+                if (NetworkManager.Singleton != null) NetworkManager.Singleton.Shutdown();
+            });
+        NetworkManager.Singleton.StartHost();
     }
+
+    private void JoinRoom()
+    {
+        var utp = (UnityTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport;
+        utp.SetConnectionData(ipJoinRoom.text, ushort.Parse(portJoinRoom.text));
+
+        _isRedTeam = tgRedJoin.isOn;
+        LoadingManager.Instance.Show(10, () =>
+        {
+            Notice.Instance.Show("Vào phòng thất bại", "Vui lòng điền đúng ip và port", "", "Đóng", null, () =>
+            {
+                try
+                {
+                    if (utp != null) utp.Shutdown();
+                    if (NetworkManager.Singleton != null) NetworkManager.Singleton.Shutdown();
+                }
+                catch (Exception e)
+                {
+                    Debug.Log(e.ToString());
+                }
+
+                ShowJoinRoom();
+            },
+                true);
+        });
+
+        bool start = NetworkManager.Singleton.StartClient();
+
+
+        if (!start)
+        {
+            LoadingManager.Instance.Hide();
+            Notice.Instance.Show("Vào phòng thất bại", "Vui lòng điền đúng ip và port", "", "Đóng", null,
+                ShowJoinRoom,
+                true);
+            try
+            {
+                if (utp != null) utp.Shutdown();
+                if (NetworkManager.Singleton != null) NetworkManager.Singleton.Shutdown();
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e.ToString());
+            }
+        }
+    }
+
+    private void ShowCreateRoom()
+    {
+        roomInfo.transform.parent.gameObject.SetActive(false);
+        btnStartGame.gameObject.SetActive(false);
+        popupCreateRoom.SetActive(true);
+        popupJoinRoom.SetActive(false);
+        timer.gameObject.SetActive(false);
+    }
+
+    private void ShowJoinRoom()
+    {
+        roomInfo.transform.parent.gameObject.SetActive(false);
+        btnStartGame.gameObject.SetActive(false);
+        popupCreateRoom.SetActive(false);
+        popupJoinRoom.SetActive(true);
+        timer.gameObject.SetActive(false);
+    }
+
+    private void OnTgGreenCreateChange(bool isOn)
+    {
+        tgRedCreate.isOn = !isOn;
+    }
+
+    private void OnTgRedCreateChange(bool isOn)
+    {
+        tgGreenCreate.isOn = !isOn;
+    }
+
+    private void OnTgGreenJoinChange(bool isOn)
+    {
+        tgRedJoin.isOn = !isOn;
+    }
+
+    private void OnTgRedJoinChange(bool isOn)
+    {
+        tgGreenJoin.isOn = !isOn;
+    }
+
+    public AuthenRPCData GetAuthenData()
+    {
+        return new AuthenRPCData
+        {
+            UserName = SystemInfo.deviceUniqueIdentifier + GameConfig.Instance.PlayerData.DisplayName,
+            IsRedTem = _isRedTeam,
+            IndexCharacter = GameConfig.Instance.PlayerData.IndexCharacter,
+            DisplayName = GameConfig.Instance.PlayerData.DisplayName,
+        };
+    }
+
 }

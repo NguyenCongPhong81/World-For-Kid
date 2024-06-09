@@ -1,4 +1,4 @@
-using Script;
+﻿using Script;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,7 +29,13 @@ public class PlayerObject : MonoBehaviour
     public void Init(PlayerInGameData ownerData)
     {
         mine.SetActive(false);
-        
+        if (GameManager.Instance.myPlayer != null)
+        {
+            if (ownerData.UserName.Equals(GameManager.Instance.myPlayer.UserName))
+            {
+                mine.SetActive(true);
+            }
+        }
 
         _playerInGameData = ownerData;
         playerName.text = _playerInGameData.DisplayName;
@@ -40,29 +46,48 @@ public class PlayerObject : MonoBehaviour
         skinnedMeshRenderer.SetMaterials(new List<Material> { listSkinMaterial[characterIndex] });
 
         MyCharacterData = Config.Instance.CharacterDatas[_playerInGameData.CharacterType];
+        heath.value = (_playerInGameData.Heath + .0F) / MyCharacterData.Health;
+        energy.value = (_playerInGameData.Energy + .0F) / MyCharacterData.Energy;
 
-        
-    }
-
-    public void InitFake(int index)
-    {
-        skinnedMeshRenderer.sharedMesh = listSkinMesh[index];
-        skinnedMeshRenderer.SetMaterials(new List<Material> { listSkinMaterial[index] });
-        MyCharacterData = GameConfig.Instance.CharacterDatas[index];
-        heath.value = (MyCharacterData.Health + .0F) / MyCharacterData.Health;
-        energy.value = (MyCharacterData.Energy + .0F) / MyCharacterData.Energy;
-        playerName.text = GameConfig.Instance.PlayerData.DisplayName;
         textHeath.text =
-            string.Format("{0}/{1}", MyCharacterData.Health, MyCharacterData.Health);
+            string.Format("{0}/{1}", _playerInGameData.Heath, MyCharacterData.Health);
         textEnergy.text =
-            string.Format("{0}/{1}", MyCharacterData.Energy, MyCharacterData.Energy);
+            string.Format("{0}/{1}", _playerInGameData.Energy, MyCharacterData.Energy);
+        if (_playerInGameData.HaveShield)
+        {
+            playerAnimation.ActiveShield();
+        }
+
+        if (_playerInGameData.Heath <= 0)
+        {
+            playerAnimation.Dead();
+        }
+
+
     }
 
     private void OnMouseDown()
     {
+        if (InGameManager.Instance.myPlayer == null || InGameManager.Instance.myPlayer.InGameData == null)
+        {
+            Notice.Instance.Show("Thông báo", "Có lỗi xảy ra, vui lòng thao tác lại", "", "Đóng", null, null,
+                true);
+            return;
+        }
+
+        if (LastSelected != null)
+        {
+            LastSelected.HideArrowSelected();
+        }
+
+        if (LastSelected == this)
+        {
+            LastSelected = null;
+            return;
+        }
+
         LastSelected = this;
         arrow.SetActive(true);
-        playerAnimation.Skill3(LastSelected.transform, null, 1);
     }
 
     public void UseAttackNormal(string targetUserName, int number = 1)
@@ -85,5 +110,10 @@ public class PlayerObject : MonoBehaviour
                 //damage = Mathf.Max(damage, 1);
                 //targetPlayerObject.ReceiveNormalAttack(damage);
             }, number);
+    }
+
+    public void HideArrowSelected()
+    {
+        arrow.SetActive(false);
     }
 }
