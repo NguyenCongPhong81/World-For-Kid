@@ -76,6 +76,22 @@ public class UIGameManager : MonoBehaviour
 
     }
 
+    public void ShowUiWaitStartGame()
+    {
+        var utp = (UnityTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport;
+        roomInfo.transform.parent.gameObject.SetActive(true);
+        roomInfo.text = utp.ConnectionData.Address + ":" + utp.ConnectionData.Port;
+        timer.gameObject.SetActive(true);
+        timer.SetStartTime(Config.TIME_PLAY);
+        popupCreateRoom.gameObject.SetActive(false);
+        popupJoinRoom.gameObject.SetActive(false);
+        LoadingManager.Instance.Hide();
+        if (NetworkManager.Singleton.IsServer)
+        {
+            //btnStartGame.gameObject.SetActive(true);
+        }
+    }
+
     private void CreateRoom()
     {
         var utp = (UnityTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport;

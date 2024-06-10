@@ -55,6 +55,11 @@ public class GameManager : NetworkBehaviour
 
     }
 
+    public override void OnNetworkSpawn()
+    {
+        ui.ShowUiWaitStartGame();
+    }
+
     public PlayerObject GetPlayerObject(bool isRedTem, int index)
     {
         return isRedTem ? redTeamMember[index] : greenTeamMember[index];

@@ -23,13 +23,13 @@ namespace Script
 
         private void Update()
         {
-            if (InGameManager.Instance.gameState != GameState.PLaying || NetworkManager.Singleton == null)
+            if (GameManager.Instance.gameState != GameState.PLaying || NetworkManager.Singleton == null)
             {
                 return;
             }
 
             _time = _startTime -
-                    (NetworkManager.Singleton.ServerTime.TimeAsFloat - InGameManager.Instance.timeStart.Value);
+                    (NetworkManager.Singleton.ServerTime.TimeAsFloat - GameManager.Instance.timeStart.Value);
 
             if (_time < 0)
             {
