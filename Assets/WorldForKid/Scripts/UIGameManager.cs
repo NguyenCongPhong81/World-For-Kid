@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using System;
 using Unity.Netcode.Transports.UTP;
 using Unity.Netcode;
+using DG.Tweening;
 
 public class UIGameManager : MonoBehaviour
 {
@@ -137,7 +138,7 @@ public class UIGameManager : MonoBehaviour
         }
     }
 
-    private void ShowCreateRoom()
+    public void ShowCreateRoom()
     {
         roomInfo.transform.parent.gameObject.SetActive(false);
         btnStartGame.gameObject.SetActive(false);
@@ -146,7 +147,7 @@ public class UIGameManager : MonoBehaviour
         timer.gameObject.SetActive(false);
     }
 
-    private void ShowJoinRoom()
+    public void ShowJoinRoom()
     {
         roomInfo.transform.parent.gameObject.SetActive(false);
         btnStartGame.gameObject.SetActive(false);
@@ -173,6 +174,38 @@ public class UIGameManager : MonoBehaviour
     private void OnTgRedJoinChange(bool isOn)
     {
         tgGreenJoin.isOn = !isOn;
+    }
+
+    public void ShowButtonInteractableButtons()
+    {
+        attackButtons.gameObject.SetActive(true);
+    }
+
+    public void EndGame(int result)
+    {
+        DOVirtual.DelayedCall(1.5f, () =>
+        {
+            GameManager.Instance.gameState = GameState.End;
+            var isRedTeam = GameManager.Instance.myPlayer.InGameData.IsRedTem;
+
+            if (result == 0)
+            {
+                draw.SetActive(true);
+                return;
+            }
+
+            if (result == 1)
+            {
+                win.SetActive(isRedTeam);
+                lose.SetActive(!isRedTeam);
+            }
+
+            if (result == -1)
+            {
+                win.SetActive(!isRedTeam);
+                lose.SetActive(isRedTeam);
+            }
+        });
     }
 
     public AuthenRPCData GetAuthenData()

@@ -56,11 +56,11 @@ namespace Script
 
         private void OnMouseEnter()
         {
-            if (InGameManager.Instance.myPlayer == null ||
-                InGameManager.Instance.myPlayer.GetInGamePlayerObject().IsDead())
-            {
-                return;
-            }
+            //if (InGameManager.Instance.myPlayer == null ||
+            //    InGameManager.Instance.myPlayer.GetInGamePlayerObject().IsDead())
+            //{
+            //    return;
+            //}
             if (!_interactable) return;
             
             outline.enabled = true;
@@ -69,11 +69,11 @@ namespace Script
 
         private void OnMouseDown()
         {
-            if (InGameManager.Instance.myPlayer == null ||
-                InGameManager.Instance.myPlayer.GetInGamePlayerObject().IsDead())
-            {
-                return;
-            }
+            //if (InGameManager.Instance.myPlayer == null ||
+            //    InGameManager.Instance.myPlayer.GetInGamePlayerObject().IsDead())
+            //{
+            //    return;
+            //}
             
             if (!_interactable) return;
             OnClickBtnAnswer();
@@ -81,11 +81,11 @@ namespace Script
 
         private void OnMouseExit()
         {
-            if (InGameManager.Instance.myPlayer == null ||
-                InGameManager.Instance.myPlayer.GetInGamePlayerObject().IsDead())
-            {
-                return;
-            }
+            //if (InGameManager.Instance.myPlayer == null ||
+            //    InGameManager.Instance.myPlayer.GetInGamePlayerObject().IsDead())
+            //{
+            //    return;
+            //}
             if (!_interactable) return;
             outline.enabled = false;
         }

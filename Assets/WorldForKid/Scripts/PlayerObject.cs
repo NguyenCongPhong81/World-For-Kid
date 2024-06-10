@@ -45,7 +45,7 @@ public class PlayerObject : MonoBehaviour
         skinnedMeshRenderer.sharedMesh = listSkinMesh[characterIndex];
         skinnedMeshRenderer.SetMaterials(new List<Material> { listSkinMaterial[characterIndex] });
 
-        MyCharacterData = Config.Instance.CharacterDatas[_playerInGameData.CharacterType];
+        MyCharacterData = GameConfig.Instance.CharacterDatas[_playerInGameData.CharacterType];
         heath.value = (_playerInGameData.Heath + .0F) / MyCharacterData.Health;
         energy.value = (_playerInGameData.Energy + .0F) / MyCharacterData.Energy;
 

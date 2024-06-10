@@ -17,13 +17,13 @@ namespace Script
             {
                 if (!String.IsNullOrEmpty(_userName)) return _userName;
 
-                if (!InGameManager.Instance.MapClientIdToUserNam.ContainsKey(OwnerClientId))
+                if (!GameManager.Instance.MapClientIdToUserNam.ContainsKey(OwnerClientId))
                 {
                     Debug.Log("OwnerClientId null " + OwnerClientId);
                     return null;
                 }
 
-                _userName = InGameManager.Instance.MapClientIdToUserNam[OwnerClientId];
+                _userName = GameManager.Instance.MapClientIdToUserNam[OwnerClientId];
                 return _userName;
             }
         }
@@ -36,13 +36,13 @@ namespace Script
                 {
                     return null;
                 }
-                if (!InGameManager.Instance.DictPlayerInGameData.ContainsKey(UserName))
+                if (!GameManager.Instance.DictPlayerInGameData.ContainsKey(UserName))
                 {
                     Debug.Log("Userdata not found " + UserName);
                     return null;
                 }
 
-                return InGameManager.Instance.DictPlayerInGameData[UserName];
+                return GameManager.Instance.DictPlayerInGameData[UserName];
             }
         }
 
@@ -57,8 +57,8 @@ namespace Script
             Debug.Log("OnNetworkSpawn" + OwnerClientId);
             if (IsOwner)
             {
-                InGameManager.Instance.myPlayer = this;
-                AuthenServerRpc(InGameManager.Instance.ui.GetAuthenData());
+                GameManager.Instance.myPlayer = this;
+                AuthenServerRpc(GameManager.Instance.ui.GetAuthenData());
             }
         }
 
@@ -69,28 +69,28 @@ namespace Script
                 return;
             }
 
-            if (InGameManager.Instance.DictPlayerInGame.ContainsKey(InGameData.UserName))
+            if (GameManager.Instance.DictPlayerInGame.ContainsKey(InGameData.UserName))
             {
-                InGameManager.Instance.DictPlayerInGame.Remove(InGameData.UserName);
+                GameManager.Instance.DictPlayerInGame.Remove(InGameData.UserName);
             }
 
-            if (InGameManager.Instance.gameState == GameState.PLaying) return;
+            if (GameManager.Instance.gameState == GameState.PLaying) return;
             var playerObj = GetInGamePlayerObject();
             if (playerObj != null)
             {
                 playerObj.gameObject.SetActive(false);
-                playerObj.Reset();
+                //playerObj.Reset();
             }
 
-            InGameManager.Instance.ResetIndex(InGameData.IsRedTem, InGameData.IndexPosition);
-            if (InGameManager.Instance.DictPlayerInGameData.ContainsKey(InGameData.UserName))
+            GameManager.Instance.ResetIndex(InGameData.IsRedTem, InGameData.IndexPosition);
+            if (GameManager.Instance.DictPlayerInGameData.ContainsKey(InGameData.UserName))
             {
-                InGameManager.Instance.DictPlayerInGameData.Remove(InGameData.UserName);
+                GameManager.Instance.DictPlayerInGameData.Remove(InGameData.UserName);
             }
 
-            if (InGameManager.Instance.MapClientIdToUserNam.ContainsKey(OwnerClientId))
+            if (GameManager.Instance.MapClientIdToUserNam.ContainsKey(OwnerClientId))
             {
-                InGameManager.Instance.MapClientIdToUserNam.Remove(OwnerClientId);
+                GameManager.Instance.MapClientIdToUserNam.Remove(OwnerClientId);
             }
         }
 
@@ -108,15 +108,15 @@ namespace Script
 
             var userName = authenRPCData.UserName.ToString();
 
-            if (!InGameManager.Instance.DictPlayerInGameData.ContainsKey(userName))
+            if (!GameManager.Instance.DictPlayerInGameData.ContainsKey(userName))
             {
-                if (InGameManager.Instance.gameState != GameState.WaitingStart)
+                if (GameManager.Instance.gameState != GameState.WaitingStart)
                 {
                     SendErrorClientRpc(ErrorCode.JoinLate, clientRpcParams);
                     return;
                 }
                 
-                var index = InGameManager.Instance.GetNextIndex(authenRPCData.IsRedTem);
+                var index = GameManager.Instance.GetNextIndex(authenRPCData.IsRedTem);
 
                 if (index < 0)
                 {
@@ -124,7 +124,7 @@ namespace Script
                     return;
                 }
 
-                InGameManager.Instance.DictPlayerInGameData[userName] = new PlayerInGameData
+                GameManager.Instance.DictPlayerInGameData[userName] = new PlayerInGameData
                 {
                     UserName = authenRPCData.UserName.ToString(),
                     DisplayName = authenRPCData.DisplayName.ToString(),
@@ -133,24 +133,24 @@ namespace Script
                     IndexPosition = index,
                     State = PlayerState.ChoosingAnswer,
                     LastAnswerIdSelected = -1,
-                    Heath = Config.Instance.CharacterDatas[authenRPCData.IndexCharacter].Health,
+                    Heath = GameConfig.Instance.CharacterDatas[authenRPCData.IndexCharacter].Health,
                 };
             }
 
-            InGameManager.Instance.MapClientIdToUserNam[OwnerClientId] = userName;
+            GameManager.Instance.MapClientIdToUserNam[OwnerClientId] = userName;
 
-            InGameManager.Instance.DictPlayerInGame[userName] = this;
+            GameManager.Instance.DictPlayerInGame[userName] = this;
 
             List<PlayerInGameRPCData> listOtherPlayerInGameDataRpc = new List<PlayerInGameRPCData>();
 
-            foreach (var player in InGameManager.Instance.DictPlayerInGameData.Values.ToList())
+            foreach (var player in GameManager.Instance.DictPlayerInGameData.Values.ToList())
             {
                 listOtherPlayerInGameDataRpc.Add(player.ConvertToRPC());
             }
 
             List<MapClientIdWithUserName> mapClientIdWithUserNames = new List<MapClientIdWithUserName>();
 
-            foreach (var mapClientIdWithUserName in InGameManager.Instance.MapClientIdToUserNam)
+            foreach (var mapClientIdWithUserName in GameManager.Instance.MapClientIdToUserNam)
             {
                 mapClientIdWithUserNames.Add(new MapClientIdWithUserName
                 {
@@ -164,9 +164,9 @@ namespace Script
             SendCurrentStateClientRpc(listOtherPlayerInGameDataRpc.ToArray(), mapClientIdWithUserNames.ToArray(),
                 clientRpcParams);
 
-            if (InGameManager.Instance.gameState >= GameState.PLaying)
+            if (GameManager.Instance.gameState >= GameState.PLaying)
             {
-                InGameManager.Instance.StartGameClientRpc(clientRpcParams);
+                GameManager.Instance.StartGameClientRpc(clientRpcParams);
 
                 if (InGameData.LastAnswerIdSelected == -1)
                 {
@@ -181,9 +181,9 @@ namespace Script
                 }
             }
 
-            if (InGameManager.Instance.gameState == GameState.End)
+            if (GameManager.Instance.gameState == GameState.End)
             {
-                InGameManager.Instance.EndGameClientRpc(InGameManager.Instance.result);
+                GameManager.Instance.EndGameClientRpc(GameManager.Instance.result);
             }
         }
 
@@ -208,7 +208,7 @@ namespace Script
                                 Debug.Log(e.ToString());
                             }
 
-                            InGameManager.Instance.ui.ShowJoinRoom();
+                            GameManager.Instance.ui.ShowJoinRoom();
                         }, true);
                     break;
                 case ErrorCode.JoinLate:
@@ -227,7 +227,7 @@ namespace Script
                                 Debug.Log(e.ToString());
                             }
 
-                            InGameManager.Instance.ui.ShowJoinRoom();
+                            GameManager.Instance.ui.ShowJoinRoom();
                         }, true);
                     break;
             }
@@ -241,17 +241,17 @@ namespace Script
             
             foreach (var data in mapClientIdWithUserNames)
             {
-                InGameManager.Instance.MapClientIdToUserNam[data.ClientId] = data.UserName.ToString();
+                GameManager.Instance.MapClientIdToUserNam[data.ClientId] = data.UserName.ToString();
             }
             
             foreach (var rpcData in otherPlayerData)
             {
                 var playerData = rpcData.ConvertToNormal();
-                InGameManager.Instance.DictPlayerInGameData[playerData.UserName] = playerData;
+                GameManager.Instance.DictPlayerInGameData[playerData.UserName] = playerData;
 
                 var playerObject = playerData.IsRedTem
-                    ? InGameManager.Instance.redTeamMember[playerData.IndexPosition]
-                    : InGameManager.Instance.greenTeamMember[playerData.IndexPosition];
+                    ? GameManager.Instance.redTeamMember[playerData.IndexPosition]
+                    : GameManager.Instance.greenTeamMember[playerData.IndexPosition];
 
                 playerObject.gameObject.SetActive(true);
                 playerObject.Init(playerData);
@@ -263,28 +263,28 @@ namespace Script
         {
             if (IsOwner) return;
             var playerData = playerInGameRPCData.ConvertToNormal();
-            InGameManager.Instance.MapClientIdToUserNam[OwnerClientId] = playerData.UserName;
+            GameManager.Instance.MapClientIdToUserNam[OwnerClientId] = playerData.UserName;
 
-            if (!InGameManager.Instance.DictPlayerInGameData.ContainsKey(playerData.UserName))
+            if (!GameManager.Instance.DictPlayerInGameData.ContainsKey(playerData.UserName))
             {
-                InGameManager.Instance.DictPlayerInGameData[playerData.UserName] = playerData;
+                GameManager.Instance.DictPlayerInGameData[playerData.UserName] = playerData;
             }
 
 
             var playerObject = playerData.IsRedTem
-                ? InGameManager.Instance.redTeamMember[playerData.IndexPosition]
-                : InGameManager.Instance.greenTeamMember[playerData.IndexPosition];
+                ? GameManager.Instance.redTeamMember[playerData.IndexPosition]
+                : GameManager.Instance.greenTeamMember[playerData.IndexPosition];
 
             if (!playerObject.gameObject.activeInHierarchy)
             {
                 playerObject.gameObject.SetActive(true);
-                playerObject.Init(InGameManager.Instance.DictPlayerInGameData[playerData.UserName]);
+                playerObject.Init(GameManager.Instance.DictPlayerInGameData[playerData.UserName]);
             }
         }
 
         private void UpdateEnemy()
         {
-            GetInGamePlayerObject().ChangeEnergy(10);
+            //GetInGamePlayerObject().ChangeEnergy(10);
         }
 
         [ClientRpc]
@@ -304,7 +304,7 @@ namespace Script
             InGameManager.Instance.ui.questionPanel.ShowQuestion(questionDataRPC);
 
             InGameManager.Instance.ui.questionPanel.ShowResult(questionDataRPC.CorrectId,chooseId);
-            GetInGamePlayerObject().ShowEffectWeapon();
+           // GetInGamePlayerObject().ShowEffectWeapon();
         }
 
         [ClientRpc]
@@ -335,7 +335,7 @@ namespace Script
                 }
             }
 
-            GetInGamePlayerObject().ShowEffectWeapon();
+            //GetInGamePlayerObject().ShowEffectWeapon();
 
             if (!InGameData.UserName.Equals(InGameManager.Instance.myPlayer.InGameData.UserName))
             {
@@ -438,7 +438,7 @@ namespace Script
         {
             if (actionType == ActionType.UseSkill)
             {
-                GetInGamePlayerObject().UseSkill(targetUserName);
+                //GetInGamePlayerObject().UseSkill(targetUserName);
             }
             else
             {
@@ -451,10 +451,10 @@ namespace Script
             return InGameData.Energy >= GetInGamePlayerObject().MyCharacterData.Energy;
         }
 
-        public InGamePlayerObject GetInGamePlayerObject()
+        public PlayerObject GetInGamePlayerObject()
         {
-            InGamePlayerObject playerObject =
-                InGameManager.Instance.GetPlayerObject(InGameData.IsRedTem, InGameData.IndexPosition);
+            PlayerObject playerObject =
+                GameManager.Instance.GetPlayerObject(InGameData.IsRedTem, InGameData.IndexPosition);
             return playerObject;
         }
     }
