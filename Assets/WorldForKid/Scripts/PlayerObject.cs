@@ -1,4 +1,5 @@
-﻿using Script;
+﻿using DG.Tweening;
+using Script;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -104,16 +105,159 @@ public class PlayerObject : MonoBehaviour
                 var targetCharacterData =
                     targetPlayerObject.MyCharacterData;
 
-                //var a = MyCharacterData.Power;
-                //float b = targetCharacterData.Defense;
-                //var damage = Mathf.RoundToInt((a + b) * (a + b) / (b * b));
-                //damage = Mathf.Max(damage, 1);
-                //targetPlayerObject.ReceiveNormalAttack(damage);
+                var a = MyCharacterData.Power;
+                float b = targetCharacterData.Defense;
+                var damage = Mathf.RoundToInt((a + b) * (a + b) / (b * b));
+                damage = Mathf.Max(damage, 1);
+                targetPlayerObject.ReceiveNormalAttack(damage);
             }, number);
+    }
+
+    public void ReceiveNormalAttack(int damage)
+    {
+        if (_playerInGameData.HaveShield)
+        {
+            return;
+        }
+
+        ChangeHeath(-damage);
+    }
+
+    public void ChangeEnergy(int delta)
+    {
+        _playerInGameData.Energy += delta;
+        _playerInGameData.Energy = Mathf.Min(_playerInGameData.Energy, MyCharacterData.Energy);
+        _playerInGameData.Energy = Mathf.Max(_playerInGameData.Energy, 0);
+        textEnergy.text =
+            string.Format("{0}/{1}", _playerInGameData.Energy, MyCharacterData.Energy);
+
+        _playerInGameData.Energy = Mathf.Min(_playerInGameData.Energy, MyCharacterData.Energy);
+        energy.DOKill();
+        energy.DOValue((_playerInGameData.Energy + .0F) / MyCharacterData.Energy, 1f);
+    }
+
+    public void UseSkill(string targetUserName)
+    {
+        ChangeEnergy(-_playerInGameData.Energy);
+
+        if (_playerInGameData.CharacterType == 4)
+        {
+            UseAttackNormal(targetUserName, _playerInGameData.BonusAttackNormal + 1);
+            return;
+        }
+
+        var targetPlayerData = GameManager.Instance.DictPlayerInGameData[targetUserName];
+        var targetPlayerObject =
+            GameManager.Instance.GetPlayerObject(targetPlayerData.IsRedTem, targetPlayerData.IndexPosition);
+        // var trans = targetPlayerObject.transform;
+        playerAnimation.AttackSkill(_playerInGameData.CharacterType, targetPlayerObject,
+            () =>
+            {
+                particles[_playerInGameData.CharacterType].SetActive(false);
+                var targetCharacterData =
+                    targetPlayerObject.MyCharacterData;
+
+                var a = MyCharacterData.Power;
+                float b = targetCharacterData.Defense;
+                var damage = Mathf.RoundToInt(a * a / (a + b));
+                damage = Mathf.Max(damage, 1);
+
+                switch (MyCharacterData.Id)
+                {
+                    case 0:
+                        return;
+                    case 1:
+                        targetPlayerObject.ChangeHeath(damage);
+                        break;
+                    case 2:
+                        targetPlayerObject.ChangeHeath(-damage);
+                        targetPlayerObject.ChangeEnergy(-a);
+                        break;
+                    case 3:
+                        targetPlayerObject.ChangeHeath(-a);
+                        break;
+                    case 5:
+                        targetPlayerObject.SetHaveShield();
+                        break;
+                    case 6:
+                        targetPlayerObject.ChangeEnergy(a);
+                        break;
+                    case 7:
+                        targetPlayerObject.Revival(damage);
+                        break;
+                }
+            });
+    }
+
+    public bool IsDead()
+    {
+        return _playerInGameData.Heath <= 0;
+    }
+
+    private void Revival(int health)
+    {
+        if (!IsDead())
+        {
+            return;
+        }
+
+        ChangeHeath(health);
+        playerAnimation.Revival();
+    }
+
+    public void ChangeHeath(int delta)
+    {
+        if (delta < 0)
+        {
+            if (_playerInGameData.HaveShield)
+            {
+                _playerInGameData.HaveShield = false;
+                playerAnimation.InActiveShield();
+                return;
+            }
+
+            if (_playerInGameData.Heath <= 0)
+            {
+                return;
+            }
+        }
+
+        _playerInGameData.Heath += delta;
+        _playerInGameData.Heath = Mathf.Min(_playerInGameData.Heath, MyCharacterData.Health);
+        _playerInGameData.Heath = Mathf.Max(_playerInGameData.Heath, 0);
+        textHeath.text =
+            string.Format("{0}/{1}", _playerInGameData.Heath, MyCharacterData.Health);
+        heath.DOKill();
+        heath.DOValue((_playerInGameData.Heath + .0F) / MyCharacterData.Health, 1f);
+
+        if (_playerInGameData.Heath <= 0)
+        {
+            playerAnimation.Dead();
+
+            GameManager.Instance.ui.CheckResult();
+        }
     }
 
     public void HideArrowSelected()
     {
         arrow.SetActive(false);
+    }
+
+    public void SetHaveShield()
+    {
+        _playerInGameData.HaveShield = true;
+    }
+
+    public void Reset()
+    {
+        foreach (var particle in particles)
+        {
+            particle.SetActive(false);
+        }
+    }
+
+    public void ShowEffectWeapon()
+    {
+        particles[_playerInGameData.CharacterType].SetActive(true);
     }
 }
